@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P2JPS7EW73"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Consent Mode v2 — implicit REFUZAT până când userul acceptă (cerință UE/GDPR).
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 500
+  });
+
+  // Recomandări Advanced Consent Mode:
+  // redactează identificatorii de reclamă cât consimțământul e refuzat,
+  // și pasează gclid prin URL când cookie-urile sunt blocate (măsurare mai bună).
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);
+
+  gtag('js', new Date());
+  gtag('config', 'G-P2JPS7EW73');
+  gtag('config', 'AW-11513342772'); // Google Ads (conversii)
+
+  // Reaplică alegerea anterioară a userului (dacă a acceptat deja înainte).
+  try {
+    if (localStorage.getItem('artvinci_consent') === 'granted') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted', ad_user_data: 'granted',
+        ad_personalization: 'granted', analytics_storage: 'granted'
+      });
+    }
+  } catch (e) {}
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atelierul tău digital — controlul asupra felului în care opera ta e expusă | ArtVinci</title>
+  <meta name="description" content="Un utilitar de precizie pentru artiști: introduci cota în cm, sistemul calculează profilul ramei la milimetru, iar clientul îți vede opera pe peretele lui, la scară reală, în AR. Utilitarul e gratuit. 0% comision pe vânzarea artei." />
+
+  <!-- Open Graph (pentru când linkul e distribuit) -->
+  <meta property="og:title" content="Deschide-ți Atelierul Digital — ArtVinci" />
+  <meta property="og:description" content="Infrastructura care elimină fricțiunea dintre atelier și perete. Calibrare la milimetru, simulare AR la scară reală, 0% comision pe vânzarea artei." />
+  <meta property="og:image" content="hero_artist_collector_home.png" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Warnes&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Brand tokens (sursă: lib/ui/theme/app_theme.dart) ───────────────── */
+    :root {
+      --cream-top: #FAF8F4;
+      --cream-bottom: #F0E9DF;
+      --violet: #AB47FF;
+      --violet-dark: #7B1FA2;
+      --orange: #FF9800;
+      --orange-dark: #F57C00;
+      --text-primary: #1A1A2E;
+      --text-secondary: #6B6B8A;
+      --surface: #ffffff;
+      --border: #E0E0E0;
+      --radius-card: 16px;
+      --radius-pill: 28px;
+      --maxw: 720px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, var(--cream-top) 0%, var(--cream-bottom) 100%);
+      background-attachment: fixed;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+    /* ── Logo ─────────────────────────────────────────────────────────────── */
+    .logo {
+      font-family: 'Warnes', cursive;
+      font-size: 28px;
+      color: var(--violet);
+      text-align: center;
+      padding: 24px 0 8px;
+      text-shadow: 0 0 6px rgba(171,71,255,.35), 0 0 16px rgba(123,31,162,.25);
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin: 8px auto 0;
+      min-height: 320px;
+      display: flex;
+      align-items: flex-end;
+      background-image: url('hero_artist_collector_home.png');
+      background-size: cover;
+      background-position: center;
+    }
+    /* Video de fundal OPȚIONAL: pune un fișier `hero.mp4` în folder ca să pornească.
+       Până atunci, poster-ul (imaginea hero) rămâne afișat — pagina arată identic. */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(26,26,46,.05) 0%, rgba(26,26,46,.62) 100%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 2; padding: 28px 24px; color: #fff; }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(30px, 7vw, 46px);
+      line-height: 1.1;
+      letter-spacing: .3px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.4);
+    }
+    .hero p {
+      margin-top: 12px;
+      font-size: clamp(15px, 4vw, 18px);
+      max-width: 30ch;
+      text-shadow: 0 1px 8px rgba(0,0,0,.5);
+    }
+    .badge {
+      display: inline-block;
+      margin-top: 16px;
+      background: var(--orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 14px rgba(245,124,0,.35);
+    }
+
+    /* ── Buttons ──────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      background: var(--violet);
+      color: #fff;
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: .3px;
+      padding: 16px 32px;
+      border: none;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(171,71,255,.3);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(171,71,255,.4); }
+    .btn-block { display: block; width: 100%; text-align: center; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--violet);
+      border: 2px solid var(--violet);
+      box-shadow: none;
+    }
+    .btn-secondary:hover { background: rgba(171,71,255,.08); box-shadow: none; }
+
+    .cta-row {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      justify-content: center; align-items: center;
+      margin: 28px 0;
+    }
+    .cta-or { color: var(--text-secondary); font-size: 14px; width: 100%; text-align: center; margin-top: -4px; }
+
+    /* ── Sections ─────────────────────────────────────────────────────────── */
+    section { padding: 36px 0; }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: clamp(26px, 6vw, 34px);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    /* Steps */
+    .steps { display: grid; gap: 16px; }
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 22px 22px 22px 64px;
+      position: relative;
+    }
+    .step .num {
+      position: absolute; left: 18px; top: 20px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--violet); color: #fff;
+      font-weight: 700; display: flex; align-items: center; justify-content: center;
+    }
+    .step h3 { font-size: 18px; margin-bottom: 4px; }
+    .step p { color: var(--text-secondary); font-size: 15px; }
+
+    /* Benefits */
+    .benefits { display: grid; gap: 14px; }
+    .benefit {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-card); padding: 18px 20px;
+    }
+    .benefit .ic { font-size: 22px; line-height: 1.2; }
+    .benefit b { display: block; margin-bottom: 2px; }
+    .benefit span { color: var(--text-secondary); font-size: 15px; }
+
+    /* ── Form ─────────────────────────────────────────────────────────────── */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      box-shadow: 0 8px 30px rgba(26,26,46,.06);
+    }
+    .form-card label { display: block; font-weight: 600; font-size: 14px; margin: 16px 0 6px; }
+    .form-card input, .form-card select, .form-card textarea {
+      width: 100%; font-family: inherit; font-size: 16px;
+      padding: 13px 14px; border: 1px solid var(--border);
+      border-radius: 12px; background: #fff; color: var(--text-primary);
+    }
+    .form-card input:focus, .form-card select:focus, .form-card textarea:focus {
+      outline: none; border-color: var(--violet); box-shadow: 0 0 0 3px rgba(171,71,255,.15);
+    }
+    .form-note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 14px; }
+    .form-submit { margin-top: 22px; }
+
+    .thanks { display: none; text-align: center; padding: 20px 0; }
+    .thanks.show { display: block; }
+    .thanks h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; margin-bottom: 8px; }
+    .thanks p { color: var(--text-secondary); }
+
+    /* ── Footer ───────────────────────────────────────────────────────────── */
+    footer { text-align: center; padding: 32px 0 48px; color: var(--text-secondary); font-size: 14px; }
+    footer a { color: var(--violet); text-decoration: none; }
+
+    @media (min-width: 560px) {
+      .steps { grid-template-columns: 1fr 1fr 1fr; }
+      .step { padding: 22px; }
+      .step .num { position: static; margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo">ArtVinci</div>
+
+    <!-- HERO -->
+    <header class="hero">
+      <!-- Video de fundal opțional. Pune `hero.mp4` în folder și pornește automat (mut, în buclă).
+           Cât timp nu există fișierul, se afișează poster-ul (imaginea hero). -->
+      <video class="hero-bg" autoplay muted playsinline poster="hero_artist_collector_home.png">
+        <source src="hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-inner">
+        <h1>Preia controlul asupra felului în care opera ta e expusă.</h1>
+        <p>Un utilitar de precizie care elimină fricțiunea dintre atelier și perete: clientul îți vede opera înrămată pe propriul perete, la dimensiune reală, prin camera telefonului — fără să-și imagineze nimic.</p>
+        <span class="badge">0% comision pe viață — primii 10 artiști fondatori</span>
+      </div>
+    </header>
+
+    <div class="cta-row">
+      <a id="downloadBtn" href="https://play.google.com/store/apps/details?id=com.artvinci.artvinci_framer" class="btn" target="_blank" rel="noopener">Înscrie-te direct în aplicație</a>
+      <a href="#inscriere" class="btn btn-secondary">Ai nevoie de ajutor?</a>
+      <span class="cta-or">Înscrierea durează câteva minute direct în aplicație. Dacă întâmpini dificultăți, completează formularul și te ajutăm personal.</span>
+    </div>
+
+    <!-- CE ESTE AR -->
+    <section style="padding-top:8px;padding-bottom:20px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--violet);border-radius:var(--radius-card);padding:22px 24px;">
+        <h3 style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:25px;margin-bottom:10px;">Ce înseamnă „în AR"?</h3>
+        <p style="color:var(--text-secondary);font-size:15.5px;"><b style="color:var(--text-primary);">AR = realitate augmentată.</b> Pe înțelesul tuturor: clientul ridică telefonul spre peretele lui și vede opera ta înrămată acolo, la mărimea reală — ca și cum ar fi deja agățată.</p>
+        <p style="color:var(--text-secondary);font-size:15.5px;margin-top:10px;">Nu e un montaj și nu e o aproximare. E o <b style="color:var(--text-primary);">simulare precisă a realității</b> — fără layere, fără măști, fără calcule în Photoshop. Clientul nu trebuie să-și imagineze nimic: vede direct <b style="color:var(--text-primary);">tabloul tău</b>, pe peretele lui.</p>
+      </div>
+    </section>
+
+    <!-- CUM FUNCȚIONEAZĂ -->
+    <section>
+      <h2 class="section-title">Cum funcționează</h2>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><h3>Îți expui lucrările</h3><p>Sub 10 minute per operă. Te ajutăm personal la început.</p></div>
+        <div class="step"><div class="num">2</div><h3>Calibrezi rama la milimetru</h3><p>Introduci cota în cm; sistemul calculează proporțiile profilului ramei la milimetru. Tu, artistul, decizi încadrarea.</p></div>
+        <div class="step"><div class="num">3</div><h3>Clientul o vede în AR</h3><p>Pe propriul perete, la scară reală — și decide în cunoștință de cauză.</p></div>
+      </div>
+    </section>
+
+    <!-- BENEFICII -->
+    <section>
+      <h2 class="section-title">De ce primii artiști</h2>
+      <div class="benefits">
+        <div class="benefit"><span class="ic">🎨</span><div><b>Suveranitate financiară — 0% comision pe vânzarea artei</b><span>Tu stabilești prețul. Ce vinzi rămâne integral al tău. ArtVinci câștigă strict dacă clientul alege să comande rama fizică de la atelierul nostru.</span></div></div>
+        <div class="benefit"><span class="ic">🤝</span><div><b>Te ajutăm personal, fără bătaie de cap tehnică</b><span>Te sunăm și calibrăm împreună primele lucrări. Nu trebuie să te pricepi la tehnologie — ne ocupăm noi.</span></div></div>
+        <div class="benefit"><span class="ic">👁️</span><div><b>Adevărul vizual, înainte de decizie</b><span>Clientul vede opera pe propriul perete, la scară reală, înainte să decidă. O simulare precisă a realității — fără layere, fără măști.</span></div></div>
+        <div class="benefit"><span class="ic">📱</span><div><b>Imaginile operelor tale, gata de folosit</b><span>Primești fiecare lucrare înrămată ca imagine finită. O folosești unde vrei tu — e a ta.</span></div></div>
+        <div class="benefit"><span class="ic">🖼️</span><div><b>Arta ta, prezentată cu rigoare</b><span>Fiecare lucrare apare înrămată, expusă ca într-o galerie — nu o poză aruncată pe un perete.</span></div></div>
+      </div>
+    </section>
+
+    <!-- ARTIST FONDATOR -->
+    <section id="fondator">
+      <h2 class="section-title">Ce înseamnă „Artist Fondator"</h2>
+      <div style="background:linear-gradient(180deg,#faf5ff 0%,#ffffff 100%);border:1px solid var(--violet);border-radius:var(--radius-card);padding:26px 24px;box-shadow:0 8px 30px rgba(171,71,255,.10);">
+        <p style="color:var(--text-secondary);margin-bottom:18px;">Primii <b style="color:var(--text-primary);">10 artiști</b> care publică <b style="color:var(--text-primary);">cel puțin 3 lucrări</b> în galerie primesc, <b style="color:var(--text-primary);">garantat pe viață</b>:</p>
+        <ul style="list-style:none;display:grid;gap:14px;padding:0;margin:0;">
+          <li style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:20px;line-height:1.3;">💸</span><div><b>0% comision — pe viață.</b> <span style="color:var(--text-secondary);">Chiar și după ce introducem comision pentru artiștii noi, tu rămâi la 0%. Pentru totdeauna.</span></div></li>
+          <li style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:20px;line-height:1.3;">⭐</span><div><b>Prioritate permanentă în galerie.</b> <span style="color:var(--text-secondary);">Apari primul la descoperire.</span></div></li>
+          <li style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:20px;line-height:1.3;">🤝</span><div><b>Onboarding personal.</b> <span style="color:var(--text-secondary);">Te ajutăm noi cu încărcarea primelor lucrări.</span></div></li>
+          <li style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:20px;line-height:1.3;">🚀</span><div><b>Acces timpuriu + vocea ta contează.</b> <span style="color:var(--text-secondary);">Testezi primul funcțiile noi și ne spui ce să construim.</span></div></li>
+          <li style="display:flex;gap:12px;align-items:flex-start;"><span style="font-size:20px;line-height:1.3;">🏅</span><div><b>Statut de fondator pe veci.</b> <span style="color:var(--text-secondary);">Rămâi în grupul fondator, cu badge „Artist fondator" pe profil.</span></div></li>
+        </ul>
+        <p style="margin-top:20px;text-align:center;font-weight:700;color:var(--violet);">Nu căutăm volum. Căutăm meșteșugari care respectă rigoarea. Doar primii 10.</p>
+      </div>
+    </section>
+
+    <!-- FORMULAR -->
+    <section id="inscriere">
+      <h2 class="section-title">Întâmpini dificultăți? Te ajutăm personal.</h2>
+      <div class="form-card">
+        <p style="color:var(--text-secondary);font-size:15px;margin-bottom:4px;">Dacă nu reușești să te înscrii în aplicație sau ai nevoie de asistență la primele lucrări, completează formularul și te contactăm noi în 1–2 zile.</p>
+        <form id="artistForm">
+          <label for="name">Nume</label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+
+          <label for="portfolio">Link către lucrările tale</label>
+          <input type="url" id="portfolio" name="portfolio" placeholder="Instagram, Facebook, site web, Behance…" />
+
+          <label for="arttype">Ce fel de artă faci?</label>
+          <select id="arttype" name="arttype" required>
+            <option value="" disabled selected>Alege…</option>
+            <option>Pictură (ulei / acrilic)</option>
+            <option>Acuarelă</option>
+            <option>Ilustrație</option>
+            <option>Grafică / print</option>
+            <option>Fotografie</option>
+            <option>Altceva</option>
+          </select>
+
+          <button type="submit" class="btn btn-block form-submit">Solicită asistență personală</button>
+          <p class="form-note">Te contactăm personal în 1–2 zile. Fără spam.</p>
+        </form>
+
+        <div class="thanks" id="thanks">
+          <h3>Atelierul tău e pe drum.</h3>
+          <p>Ți-am primit cererea. Te contactăm personal în 1–2 zile — și calibrăm împreună un demo AR cu opera ta.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      ArtVinci · <a href="https://artvinci.ro">artvinci.ro</a> · <a href="https://ghid.artvinci.ro" target="_blank" rel="noopener">Manual de operare</a> · <a href="https://www.artvinci.ro/store-policy" target="_blank" rel="noopener">Politica de confidențialitate</a><br />
+      Infrastructura unde opera ta e expusă cu precizie.
+    </footer>
+  </div>
+
+  <!-- ── Banner consimțământ cookie-uri (GDPR + Consent Mode v2) ──────────── -->
+  <style>
+    .cookie-banner {
+      position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9999;
+      max-width: 720px; margin: 0 auto;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-card); box-shadow: 0 10px 40px rgba(26,26,46,.18);
+      padding: 18px 20px; display: none;
+      flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+    }
+    .cookie-banner.show { display: flex; }
+    .cookie-banner p { font-size: 13.5px; color: var(--text-secondary); flex: 1 1 280px; margin: 0; }
+    .cookie-banner a { color: var(--violet); }
+    .cookie-actions { display: flex; gap: 10px; }
+    .cookie-btn {
+      font-family: inherit; font-size: 14px; font-weight: 600;
+      padding: 10px 18px; border-radius: var(--radius-pill); cursor: pointer; border: none;
+    }
+    .cookie-reject { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .cookie-accept { background: var(--violet); color: #fff; }
+  </style>
+  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-label="Consimțământ cookie-uri">
+    <p>Folosim cookie-uri pentru a măsura eficiența reclamelor și a îmbunătăți experiența. Detalii în <a href="https://www.artvinci.ro/store-policy" target="_blank" rel="noopener">politica de confidențialitate</a>. Poți accepta sau refuza.</p>
+    <div class="cookie-actions">
+      <button id="cookieReject" class="cookie-btn cookie-reject">Refuz</button>
+      <button id="cookieAccept" class="cookie-btn cookie-accept">Accept</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var banner = document.getElementById('cookieBanner');
+      var saved = null;
+      try { saved = localStorage.getItem('artvinci_consent'); } catch (e) {}
+      if (!saved) banner.classList.add('show');
+      function choose(val) {
+        try { localStorage.setItem('artvinci_consent', val); } catch (e) {}
+        if (val === 'granted' && typeof gtag === 'function') {
+          gtag('consent', 'update', {
+            ad_storage: 'granted', ad_user_data: 'granted',
+            ad_personalization: 'granted', analytics_storage: 'granted'
+          });
+        }
+        banner.classList.remove('show');
+      }
+      document.getElementById('cookieAccept').addEventListener('click', function () { choose('granted'); });
+      document.getElementById('cookieReject').addEventListener('click', function () { choose('denied'); });
+    })();
+  </script>
+
+  <script>
+    /* ── CONFIG: setează endpoint-ul formularului ──────────────────────────
+       Opțiunea A (zero backend, recomandat pentru start): creează un formular
+       gratuit pe https://formspree.io și pune aici URL-ul (ex. https://formspree.io/f/abcxyz).
+       Opțiunea B (în infra ta): un endpoint pe artvinci-api (Worker) care trimite
+       email via Resend la office@artvinci.ro și/sau scrie în D1.
+    */
+    const FORM_ENDPOINT = "https://formspree.io/f/mvzjkdbj";
+
+    const form = document.getElementById('artistForm');
+    const thanks = document.getElementById('thanks');
+
+    // Conversie SECUNDARĂ (observe-only) — click pe „Descarcă din Google Play".
+    // Creează în Google Ads o acțiune „Descărcare app" (setată Secondary) și pune label-ul aici.
+    // Cât e gol, nu se declanșează nimic.
+    const DOWNLOAD_CONVERSION = ''; // ex. 'AW-11513342772/xxxxxxxxxxxxx'
+    const dlBtn = document.getElementById('downloadBtn');
+    if (dlBtn) {
+      dlBtn.addEventListener('click', function () {
+        if (DOWNLOAD_CONVERSION && typeof gtag === 'function') {
+          gtag('event', 'conversion', { send_to: DOWNLOAD_CONVERSION, value: 1.0, currency: 'RON' });
+        }
+      });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+      btn.textContent = 'Se trimite…';
+      try {
+        const res = await fetch(FORM_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.style.display = 'none';
+        thanks.classList.add('show');
+        // Conversie: eveniment lead pentru GA4 (marchează-l ca o conversie în GA4
+        // și importă-l în Google Ads). Dacă adaugi un tag de conversie Google Ads
+        // (AW-…), decomentează linia send_to și pune ID-ul + label-ul tău.
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { form: 'artist_signup' });
+          gtag('event', 'conversion', {
+            send_to: 'AW-11513342772/F4EgCLKhysUcELTW_vEq',
+            value: 1.0,
+            currency: 'RON'
+          });
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Deschide-ți Atelierul Digital';
+        alert('A apărut o eroare. Încearcă din nou sau scrie-ne la office@artvinci.ro.');
+      }
+    });
+  </script>
+</body>
+</html>
